@@ -17,16 +17,17 @@ class PostController extends Controller{
     public function create(){
         return view('posts.create');
     }
-
-    public function store(PostRequest $request,Post $post) // 引数をRequestからPostRequestにする
-    {
+    
+    public function store(PostRequest $request,Post $post){ // 引数をRequestからPostRequestにする
+        // dd($request['post']);
         $input = $request['post'];
         $post->fill($input)->save();
+        // dd($post->id);
         return redirect('/posts/' . $post->id);
     }
     
     public function edit(Post $post){
-    return view('posts.edit')->with(['post' => $post]);
+        return view('posts.edit')->with(['post' => $post]);
     }
     
     public function update(PostRequest $request, Post $post){
@@ -34,5 +35,10 @@ class PostController extends Controller{
     $post->fill($input_post)->save();
 
     return redirect('/posts/' . $post->id);
+    }
+    
+    public function delete(Post $post){
+    $post->delete();
+    return redirect('/');
     }
 }
